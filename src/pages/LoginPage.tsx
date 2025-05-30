@@ -1,35 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'firebase/auth';
 import { firebaseApp } from '@/lib/firebase';
 import Head from '@/components/Head';
 
 const auth = getAuth(firebaseApp);
-
-const uiConfig = {
-  signInOptions: [
-    GoogleAuthProvider.PROVIDER_ID,
-  ],
-  credentialHelper: 'none',
-  callbacks: {
-    signInSuccessWithAuthResult: () => {
-      // Do NOT redirect here!
-      return false;
-    },
-  },
-};
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
       if (firebaseUser) {
         navigate('/auth-sync', { replace: true });
       }
