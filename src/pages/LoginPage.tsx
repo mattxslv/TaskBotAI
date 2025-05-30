@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAuth, GoogleAuthProvider, EmailAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
+import { firebaseApp } from '@/lib/firebase';
 import Head from '@/components/Head';
 import { useNavigate } from 'react-router';
 
@@ -38,6 +39,10 @@ const LoginPage = () => {
       <Head title='Log In to Tasky AI – Manage Your To-Do Lists and Projects' />
       <section>
         <div className='container flex justify-center'>
+          <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={auth}
+          />
         </div>
       </section>
     </>
