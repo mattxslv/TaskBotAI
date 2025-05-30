@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.22.7",
-    "@clerk/themes": "^2.2.13",
     "@google/generative-ai": "^0.21.0",
     "@radix-ui/react-alert-dialog": "^1.1.5",
     "@radix-ui/react-collapsible": "^1.1.2",
@@ -31,7 +29,10 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "daisyui": "^5.0.42",
     "date-fns": "^3.6.0",
+    "firebase": "^9.23.0",
+    "firebaseui": "^6.1.0",
     "lucide-react": "^0.474.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",

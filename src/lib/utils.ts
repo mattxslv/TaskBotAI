@@ -91,14 +91,14 @@ export function generateID() {
  * Redirects the user to the auth sync page if the user ID is not found in the local storage or returns the user ID.
  */
 export function getUserId(): string {
-  const clerkUserId = localStorage.getItem('clerkUserId');
+  const firebaseUserId = localStorage.getItem('firebaseUserId');
 
-  if (!clerkUserId) {
+  if (!firebaseUserId) {
     redirect('/auth-sync');
     return '';
   }
 
-  return clerkUserId;
+  return firebaseUserId;
 }
 
 /**

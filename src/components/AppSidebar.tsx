@@ -8,6 +8,9 @@
  * Node modules
  */
 import { Link, useLocation, useLoaderData } from 'react-router';
+import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { useNavigate } from 'react-router';
 
 /**
  * Components
@@ -28,7 +31,6 @@ import {
   SidebarGroupLabel,
 } from '@/components/ui/sidebar';
 import Logo from '@/components/Logo';
-import { UserButton } from '@clerk/clerk-react';
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -42,6 +44,8 @@ import {
 import TaskFormDialog from '@/components/TaskFormDialog';
 import ProjectFormDialog from '@/components/ProjectFormDialog';
 import ProjectActionMenu from '@/components/ProjectActionMenu';
+import { firebaseApp } from '@/lib/firebase';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 /**
  * Hooks
@@ -73,10 +77,26 @@ import type { AppLoaderData } from '@/routes/loaders/appLoader';
 const AppSidebar = () => {
   const location = useLocation();
   const projects = useProjects();
+  const navigate = useNavigate();
 
   const { taskCounts } = useLoaderData() as AppLoaderData;
 
   const { isMobile, setOpenMobile } = useSidebar();
+
+  // Add user state for Firebase Auth
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, setUser);
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    const auth = getAuth(firebaseApp);
+    await signOut(auth);
+    navigate('/', { replace: true }); // Redirect to login after logout
+  };
 
   return (
     <Sidebar>
@@ -256,19 +276,25 @@ const AppSidebar = () => {
       </SidebarContent>
 
       <SidebarFooter>
-        <UserButton
-          showName
-          appearance={{
-            elements: {
-              rootBox: 'w-full',
-              userButtonTrigger:
-                '!shadow-none w-full justify-start p-2 rounded-md hover:bg-sidebar-accent',
-              userButtonBox: 'flex-row-reverse shadow-none gap-2',
-              userButtonOuterIdentifier: 'ps-0',
-              popoverBox: 'pointer-events-auto',
-            },
-          }}
-        />
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-sidebar-accent transition">
+                <span className="flex-shrink-0 rounded-full bg-muted w-8 h-8 flex items-center justify-center text-lg font-bold uppercase">
+                  {user.displayName?.[0] || user.email?.[0] || '?'}
+                </span>
+                <span className="truncate text-left flex-1">
+                  {user.displayName || user.email}
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="start">
+              <DropdownMenuItem onClick={handleLogout}>
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
