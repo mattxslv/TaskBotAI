@@ -30,7 +30,7 @@ const CompletedTaskPage = () => {
 
   return (
     <>
-      <Head title='Completed – Tasky AI' />
+      <Head title='Completed – TaskBot AI' />
 
       <TopAppBar title='Completed' />
 

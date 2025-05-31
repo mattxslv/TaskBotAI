@@ -48,7 +48,7 @@ const RootLayout = () => {
               src={logo}
               width={64}
               height={64}
-              alt='Tasky AI'
+              alt='TaskBot AI'
             />
 
             <Loader2 className='text-muted-foreground animate-spin' />

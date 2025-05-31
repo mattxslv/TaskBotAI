@@ -37,7 +37,7 @@ const InboxPage = () => {
 
   return (
     <>
-      <Head title='Inbox – Tasky AI' />
+      <Head title='Inbox – TaskBot AI' />
 
       <TopAppBar title='Inbox' />
 

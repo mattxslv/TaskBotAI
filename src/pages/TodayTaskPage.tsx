@@ -44,7 +44,7 @@ const TodayTaskPage = () => {
 
   return (
     <>
-      <Head title='Today – Tasky AI' />
+      <Head title='Today – TaskBot AI' />
 
       <TopAppBar
         title='Today'

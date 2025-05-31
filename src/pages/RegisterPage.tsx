@@ -42,7 +42,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Head title="Create an Account – Tasky AI To-Do List & Project Management App" />
+      <Head title="Create an Account – TaskBot AI To-Do List & Project Management App" />
       <section className="min-h-screen flex items-center justify-center bg-base-200 text-gray-900">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-2xl font-bold mb-6 text-center">Create your account</h1>

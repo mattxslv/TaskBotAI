@@ -52,7 +52,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Head title="Log In to Tasky AI – Manage Your To-Do Lists and Projects" />
+      <Head title="Log In to TaskBot AI – Manage Your To-Do Lists and Projects" />
       <section className="min-h-screen flex items-center justify-center bg-base-200 text-gray-900">
         <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-2xl font-bold mb-6 text-center">Log in to your account</h1>

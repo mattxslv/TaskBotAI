@@ -14,10 +14,10 @@ const Logo = () => {
     <div className='flex items-center gap-3 font-semibold text-lg'>
       <img
         src={logo}
-        alt='Tasky AI'
+        alt='TaskBot AI'
         className='w-6 h-6'
       />
-      Tasky AI
+      TaskBot AI
     </div>
   );
 };

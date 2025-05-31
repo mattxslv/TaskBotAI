@@ -73,7 +73,7 @@ const ProjectsPage = () => {
 
   return (
     <>
-      <Head title='My Projects – Tasky AI' />
+      <Head title='My Projects – TaskBot AI' />
 
       <TopAppBar title='My Projects' />
 

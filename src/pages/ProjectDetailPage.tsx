@@ -52,7 +52,7 @@ projectTasks.sort((a, b) => {
 
   return (
     <>
-      <Head title={project.name + ' – Tasky AI'} />
+      <Head title={project.name + ' – TaskBot AI'} />
 
       <TopAppBar title={project.name} />
 

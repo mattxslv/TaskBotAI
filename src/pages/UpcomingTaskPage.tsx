@@ -35,7 +35,7 @@ const UpcomingTaskPage = () => {
 
   return (
     <>
-      <Head title='Upcoming – Tasky AI' />
+      <Head title='Upcoming – TaskBot AI' />
 
       <TopAppBar
         title='Upcoming'

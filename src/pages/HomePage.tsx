@@ -23,7 +23,7 @@ import { heroBannerSm, heroBannerLg } from '@/assets';
 const HomePage = () => {
   return (
     <>
-      <Head title='Tasky AI – AI-Powered To-Do List & Project Management App' />
+      <Head title='TaskBot AI – AI-Powered To-Do List & Project Management App' />
 
       <section>
         <div className='container !px-8 grid grid-cols-1 gap-8 items-center xl:gap-12 xl:grid-cols-[1fr_1.5fr]'>
@@ -54,14 +54,14 @@ const HomePage = () => {
               src={heroBannerSm}
               width={480}
               height={480}
-              alt='Tasky AI Website'
+              alt='TaskBot AI Website'
               className='md:hidden'
             />
             <img
               src={heroBannerLg}
               width={960}
               height={540}
-              alt='Tasky AI Website'
+              alt='TaskBot AI Website'
               className='max-md:hidden'
             />
           </figure>
