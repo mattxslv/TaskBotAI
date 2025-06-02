@@ -9,7 +9,7 @@
  */
 import { Link, useLocation, useLoaderData } from 'react-router';
 import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User as FirebaseUser } from 'firebase/auth';
 import { useNavigate } from 'react-router';
 
 /**
@@ -74,6 +74,35 @@ import {
  */
 import type { AppLoaderData } from '@/routes/loaders/appLoader';
 
+// Helper to render profile image or fallback icon
+const getProfileImage = (user: FirebaseUser | null) => {
+  if (user && user.photoURL) {
+    // Google profile image
+    return (
+      <img
+        src={user.photoURL}
+        alt="Profile"
+        className="w-8 h-8 rounded-full object-cover"
+        referrerPolicy="no-referrer"
+      />
+    );
+  }
+  // Fallback: generic person/incognito SVG icon
+  return (
+    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-lg text-gray-500">
+      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+        <circle cx="12" cy="8" r="4" fill="currentColor" />
+        <path
+          d="M4 20c0-2.21 3.58-4 8-4s8 1.79 8 4"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+};
+
 const AppSidebar = () => {
   const location = useLocation();
   const projects = useProjects();
@@ -84,7 +113,7 @@ const AppSidebar = () => {
   const { isMobile, setOpenMobile } = useSidebar();
 
   // Add user state for Firebase Auth
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
 
   useEffect(() => {
     const auth = getAuth(firebaseApp);
@@ -154,17 +183,17 @@ const AppSidebar = () => {
                       </SidebarMenuBadge>
                     )}
 
-                    {item.href === '/app/upcoming' && Boolean(taskCounts.upcomingTasks) && (
-                      <SidebarMenuBadge>
-                        {taskCounts.upcomingTasks}
-                      </SidebarMenuBadge>
-                    )}
+                  {item.href === '/app/upcoming' && Boolean(taskCounts.upcomingTasks) && (
+                    <SidebarMenuBadge>
+                      {taskCounts.upcomingTasks}
+                    </SidebarMenuBadge>
+                  )}
 
-                    {item.href === '/app/completed' && Boolean(taskCounts.completedTasks) && (
-                      <SidebarMenuBadge>
-                        {taskCounts.completedTasks}
-                      </SidebarMenuBadge>
-                    )}
+                  {item.href === '/app/completed' && Boolean(taskCounts.completedTasks) && (
+                    <SidebarMenuBadge>
+                      {taskCounts.completedTasks}
+                    </SidebarMenuBadge>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -280,9 +309,7 @@ const AppSidebar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-sidebar-accent transition">
-                <span className="flex-shrink-0 rounded-full bg-muted w-8 h-8 flex items-center justify-center text-lg font-bold uppercase">
-                  {user.displayName?.[0] || user.email?.[0] || '?'}
-                </span>
+                {getProfileImage(user)}
                 <span className="truncate text-left flex-1">
                   {user.displayName || user.email}
                 </span>

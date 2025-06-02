@@ -44,7 +44,10 @@ const LoginPage = () => {
       await signInWithPopup(auth, provider);
       navigate('/auth-sync', { replace: true });
     } catch (err: any) {
-      setError(err.message);
+      // Only show error if it's not popup closed by user
+      if (err.code !== 'auth/popup-closed-by-user') {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -53,15 +56,18 @@ const LoginPage = () => {
   return (
     <>
       <Head title="Log In to TaskBot AI – Manage Your To-Do Lists and Projects" />
-      <section className="min-h-screen flex items-center justify-center bg-base-200 text-gray-900">
-        <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-          <h1 className="text-2xl font-bold mb-6 text-center">Log in to your account</h1>
+      <section className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
+        <div className="w-full max-w-md bg-neutral-900/90 rounded-xl shadow-2xl px-6 py-8 text-gray-100 border border-neutral-800 backdrop-blur-md">
+          <h1 className="text-2xl font-extrabold mb-3 text-center tracking-tight">Log in to your account</h1>
+          <p className="text-center text-gray-400 mb-6 text-sm">
+            Access your workspace and manage your projects efficiently.
+          </p>
           <form className="space-y-4" onSubmit={handleLogin} autoComplete="off">
             <label className="block">
-              <span className="text-sm font-medium">Email</span>
+              <span className="text-sm font-semibold">Email</span>
               <input
                 type="email"
-                className="input input-bordered w-full mt-1"
+                className="input input-bordered w-full mt-1 bg-neutral-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/60 transition"
                 placeholder="you@email.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
@@ -70,10 +76,10 @@ const LoginPage = () => {
               />
             </label>
             <label className="block">
-              <span className="text-sm font-medium">Password</span>
+              <span className="text-sm font-semibold">Password</span>
               <input
                 type="password"
-                className="input input-bordered w-full mt-1"
+                className="input input-bordered w-full mt-1 bg-neutral-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/60 transition"
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -81,28 +87,36 @@ const LoginPage = () => {
                 minLength={6}
               />
             </label>
-            {error && <div className="text-red-500 text-sm">{error}</div>}
+            {error && <div className="text-red-400 text-sm text-center">{error}</div>}
             <button
               type="submit"
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full rounded-full font-semibold tracking-wide shadow-md transition hover:scale-[1.02] active:scale-95"
               disabled={loading}
             >
               {loading ? 'Logging in...' : 'Log In'}
             </button>
-            <div className="divider text-xs">or</div>
+            <div className="divider text-xs text-gray-500">or</div>
             <button
               type="button"
-              className="btn btn-outline w-full flex items-center justify-center gap-2"
+              className="btn btn-outline w-full flex items-center justify-center gap-2 rounded-full font-semibold shadow-sm hover:bg-neutral-800/60 transition"
               onClick={handleGoogleLogin}
               disabled={loading}
             >
-              <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path fill="#4285F4" d="M44.5 20H24v8.5h11.7C34.1 33.1 29.6 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c2.7 0 5.2.9 7.2 2.5l6.4-6.4C34.1 5.1 29.3 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15.6 16.1 19.5 13 24 13c2.7 0 5.2.9 7.2 2.5l6.4-6.4C34.1 5.1 29.3 3 24 3c-7.2 0-13.2 4.1-16.2 10.1z"/><path fill="#FBBC05" d="M24 43c5.3 0 10.1-1.8 13.8-4.8l-6.4-5.2C29.2 34.9 26.7 36 24 36c-5.6 0-10.1-2.9-11.7-7.5l-7 5.4C10.8 39.9 17 43 24 43z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.7c-1.1 3.1-4.1 5.5-7.7 5.5-4.7 0-8.5-3.8-8.5-8.5s3.8-8.5 8.5-8.5c2.7 0 5.2.9 7.2 2.5l6.4-6.4C34.1 5.1 29.3 3 24 3c-7.2 0-13.2 4.1-16.2 10.1z"/></g></svg>
+              <svg className="w-5 h-5" viewBox="0 0 48 48">
+                <g>
+                  <circle cx="24" cy="24" r="24" fill="#fff"/>
+                  <path d="M34.6 24.3c0-.8-.1-1.6-.2-2.3H24v4.5h7.7c-.3 1.5-1.2 2.8-2.5 3.7v3h4c2.3-2.1 3.6-5.2 3.6-8.9z" fill="#4285F4"/>
+                  <path d="M24 38c3.2 0 5.9-1.1 7.9-2.9l-4-3.1c-1.1.7-2.5 1.2-3.9 1.2-3 0-5.6-2-6.5-4.7h-4.1v3.1C16.1 35.7 19.8 38 24 38z" fill="#34A853"/>
+                  <path d="M17.5 28.5c-.3-.8-.5-1.6-.5-2.5s.2-1.7.5-2.5v-3.1h-4.1c-.8 1.6-1.3 3.3-1.3 5.6s.5 4 1.3 5.6l4.1-3.1z" fill="#FBBC05"/>
+                  <path d="M24 15.5c1.7 0 3.2.6 4.4 1.7l3.3-3.3C29.9 11.7 27.2 10.5 24 10.5c-4.2 0-7.9 2.3-10 5.8l4.1 3.1c.9-2.7 3.5-4.7 6.5-4.7z" fill="#EA4335"/>
+                </g>
+              </svg>
               Log In with Google
             </button>
           </form>
           <div className="text-center mt-6 text-sm">
-            Don't have an account?{' '}
-            <a href="/register" className="link link-primary font-medium">Register</a>
+            <span className="text-gray-400">Don't have an account?</span>{' '}
+            <a href="/register" className="link link-primary font-semibold">Register</a>
           </div>
         </div>
       </section>
