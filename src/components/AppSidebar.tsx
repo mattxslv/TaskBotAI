@@ -1,5 +1,5 @@
 /**
- * @copyright 2025 codewithsadee
+ * @copyright 2025 mattxslv
  * @license Apache-2.0
  * @description Sidebar component for the app
  */
