@@ -127,6 +127,7 @@ const router = createBrowserRouter([
   {
     path: '/app',
     element: <AppLayout />,
+    errorElement: <RootErrorBoundary />,
     children: appRouteChildren,
     action: appAction,
     loader: appLoader,
